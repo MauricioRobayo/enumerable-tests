@@ -68,11 +68,17 @@ module Enumerable
     arr
   end
 
-  def my_inject(value = 0)
-    accumulator = self[0]
-    drop(1).my_each do |i|
+  def my_inject(value = nil)
+    if value.nil?
+      accumulator = self[0]
+      arr = drop(1)
+    else
+      accumulator = value
+      arr = self
+    end
+    arr.my_each do |i|
       accumulator = yield accumulator, i
     end
-    accumulator + value
+    accumulator
   end
 end

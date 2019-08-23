@@ -27,9 +27,8 @@ RSpec.describe Enumerable do
       expect(empty_array.my_select { |item| item > 2 }).to eql([])
     end
     it 'return an array with items i equal to a' do
-      expect(strings_array.my_select { |item| item == "a" }).to eql(["a"])
+      expect(strings_array.my_select { |item| item == 'a' }).to eql(['a'])
     end
-    
   end
 
   describe '#my_all?' do
@@ -40,7 +39,7 @@ RSpec.describe Enumerable do
       expect(empty_array.my_all? { |i| i >= 0 }).to eql(true)
     end
     it 'return false if all the array elemnts are iqual to b' do
-      expect(strings_array.my_all? { |i| i == "b" }).to eql(false)
+      expect(strings_array.my_all? { |i| i == 'b' }).to eql(false)
     end
   end
 
@@ -52,9 +51,8 @@ RSpec.describe Enumerable do
       expect(empty_array.my_any? { |i| i >= 0 }).to eql(false)
     end
     it 'return true if at least one character match the condition' do
-      expect(strings_array.my_any? { |i| i >= "a" }).to eql(true)
+      expect(strings_array.my_any? { |i| i >= 'a' }).to eql(true)
     end
-
   end
 
   describe ' #my_none?' do
@@ -65,7 +63,7 @@ RSpec.describe Enumerable do
       expect(empty_array.my_none? { |i| i == 5 }).to eql(true)
     end
     it 'return true if no item is equal to a' do
-      expect(strings_array.my_none? { |i| i == "a" }).to eql(false)
+      expect(strings_array.my_none? { |i| i == 'a' }).to eql(false)
     end
   end
 
@@ -74,7 +72,7 @@ RSpec.describe Enumerable do
       expect(numbers_array.my_count { |i| i == 2 }).to eql(2)
     end
     it 'return the number of times the element 2 and a is in the array' do
-      expect([1,6,3,2,6,"a","b"].my_count { |i| i == 2 || i == "a"}).to eql(2)
+      expect([1, 6, 3, 2, 6, 'a', 'b'].my_count { |i| [2, 'a'].include?(i) }).to eql(2)
     end
     it 'return the number of times that true is not in the array' do
       expect([true].my_count { |i| i != false }).to eql(1)
@@ -85,8 +83,8 @@ RSpec.describe Enumerable do
     it 'return a new array with the items multiplied by 5' do
       expect(numbers_array.my_map { |i| i * 5 }).to eql([5, 10, 15, 10])
     end
-    it 'return a new array with the items multiplied by 5' do
-      expect([12,5*"a"].my_map { |i| i * 5 }).to eql([60, "aaaaaaaaaaaaaaaaaaaaaaaaa"])
+    it 'return a new array with the items multiplied by 5 including an string' do
+      expect([12, 'a' * 5].my_map { |i| i * 5 }).to eql([60, 'aaaaaaaaaaaaaaaaaaaaaaaaa'])
     end
     it 'return a new array with the items operated with and and true' do
       expect([true, false, false].my_map { |i| i && true }).to eql([true, false, false])
@@ -98,10 +96,10 @@ RSpec.describe Enumerable do
       expect(numbers_array.my_inject { |accumulator, i| accumulator + i }).to eql(8)
     end
     it 'return the sum of the elements of the array' do
-      expect(empty_array.my_inject { |accumulator, i| accumulator + i }).to eql(8)
+      expect(strings_array.my_inject { |accumulator, i| accumulator + i }).to eql('abcd')
     end
-    it 'return the sum of the elements of the array' do
-      expect([true,true,false,false,true,false].my_inject { |accumulator, i| accumulator + i }).to eql(8)
+    it 'return the sum of the elements of the array given an initial value' do
+      expect(numbers_array.my_inject(5) { |accumulator, i| accumulator + i }).to eql(13)
     end
   end
 end
